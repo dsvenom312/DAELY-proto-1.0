@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 
-class MySetting extends StatelessWidget {
-  const MySetting({super.key});
+class MyShopPage extends StatelessWidget {
+  const MyShopPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        title: const Text('PROFILE PAGE'),
-        backgroundColor: Colors.black,
-      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black,
         unselectedItemColor: Colors.grey,
@@ -40,26 +36,6 @@ class MySetting extends StatelessWidget {
             Navigator.pushNamed(context, '/profile');
           }
         },
-      ),
-      body: Column(
-        children: [
-          Container(
-            alignment: Alignment.center,
-            padding: const EdgeInsets.all(20.0),
-            child: Column(),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                'ini setting',
-                style: TextStyle(
-                  fontSize: 24.0,
-                  color: Colors.pink,
-                ),
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
