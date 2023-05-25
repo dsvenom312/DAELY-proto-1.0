@@ -1,73 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:daely_proto_11/setting.dart';
-
-// class ExplorePage extends StatelessWidget {
-//   const ExplorePage({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('EXPLORE'),
-//         backgroundColor: Colors.black,
-//         actions: [
-//           IconButton(
-//             icon: const Icon(Icons.settings),
-//             onPressed: () {
-//               Navigator.push(
-//                 context,
-//                 MaterialPageRoute(builder: (context) => const MySetting()),
-//               );
-//             },
-//           ),
-//         ],
-//       ),
-//       body: GridView.count(
-//         crossAxisCount: 2,
-//         mainAxisSpacing: 8.0,
-//         crossAxisSpacing: 8.0,
-//         padding: const EdgeInsets.all(8.0),
-//         children: <Widget>[
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//           Image.asset('assets/images/pic1.png', width: 100, height: 100),
-//         ],
-//       ),
-//       bottomNavigationBar: BottomNavigationBar(
-//         backgroundColor: Colors.grey,
-//         selectedItemColor: Colors.black, //error
-//         selectedLabelStyle: const TextStyle(color: Colors.black), //error
-//         items: const [
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.inbox,
-//                 color: Colors
-//                     .black), // inbox chat button disini ---------------------------------------------
-//             label: 'Inbox',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.home,
-//                 color: Colors
-//                     .black), // Home button disini ----------------------------------------------
-//             label: 'Home',
-//           ),
-//           BottomNavigationBarItem(
-//             icon: Icon(Icons.person, color: Colors.black),
-
-//             // Profile button disini ----------------------------------------------
-//             label: 'Profile',
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:daely_proto_11/swipeabletest.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
@@ -82,11 +15,15 @@ class _MyHomePageState extends State<ExplorePage> {
 
   void _onItemTapped(int index) {
     if (index == 1) {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/swipe');
     }
     if (index == 2) {
       // Navigate to Profile page on index 2
       Navigator.pushNamed(context, '/profile');
+    }
+    if (index == 0) {
+      // Navigate to Profile page on index 2
+      Navigator.pushNamed(context, '/inbox');
     } else {
       setState(() {
         _selectedIndex = index;
@@ -94,30 +31,72 @@ class _MyHomePageState extends State<ExplorePage> {
     }
   }
 
+  final List<String> imagePaths = [
+    'assets/images/pic1.jpg',
+    'assets/images/pic2.jpg',
+    'assets/images/pic3.jpg',
+    'assets/images/pic4.jpg',
+    'assets/images/pic1.jpg',
+    'assets/images/pic2.jpg',
+    'assets/images/pic3.jpg',
+    'assets/images/pic4.jpg',
+    'assets/images/pic1.jpg',
+    'assets/images/pic2.jpg',
+    'assets/images/pic3.jpg',
+    'assets/images/pic4.jpg',
+    'assets/images/pic1.jpg',
+    'assets/images/pic2.jpg',
+    'assets/images/pic3.jpg',
+    'assets/images/pic4.jpg',
+    'assets/images/pic1.jpg',
+    'assets/images/pic2.jpg',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('EXPLORE'),
-        backgroundColor: Colors.black, // Change the color to blue
-      ),
-      body: GridView.count(
-        crossAxisCount: 2,
-        mainAxisSpacing: 8.0,
-        crossAxisSpacing: 8.0,
-        padding: const EdgeInsets.all(8.0),
-        children: <Widget>[
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
-          Image.asset('assets/images/pic1.png', width: 100, height: 100),
+        backgroundColor: Colors.black,
+        // Change the color to blue
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MySetting()),
+              );
+            },
+          ),
         ],
+      ),
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          childAspectRatio: 1,
+        ),
+        itemCount: imagePaths.length,
+        itemBuilder: (BuildContext context, int index) {
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const SwipeableImagePage()),
+              );
+            },
+            child: Image.asset(
+              imagePaths[index],
+              fit: BoxFit.cover,
+            ),
+            // child: Image.asset(
+            //   imagePaths[index],
+            //   fit: BoxFit.cover,
+            // ),
+          );
+        },
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.black, // Change the color to black

@@ -1,7 +1,5 @@
-import 'package:daely_proto_11/mainprofile.dart';
-import 'package:daely_proto_11/explore.dart';
-import 'package:daely_proto_11/main.dart';
 import 'package:flutter/material.dart';
+import 'package:daely_proto_11/setting.dart';
 
 // ignore: depend_on_referenced_packages
 
@@ -21,7 +19,9 @@ class _MyInboxPageState extends State<MyInboxPage> {
       // Navigate to Profile page on index 2
       Navigator.pushNamed(context, '/profile');
     } else if (index == 1) {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, '/swipe');
+    } else if (index == 0) {
+      Navigator.pushNamed(context, '/search');
     } else {
       setState(() {
         _selectedIndex = index;
@@ -32,9 +32,21 @@ class _MyInboxPageState extends State<MyInboxPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         title: const Text('DAELY'),
         backgroundColor: Colors.black, // Change the color to black
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MySetting()),
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         decoration: const BoxDecoration(),
@@ -45,8 +57,8 @@ class _MyInboxPageState extends State<MyInboxPage> {
         unselectedItemColor: Colors.white,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.inbox, color: Colors.pink),
-            label: 'Inbox',
+            icon: Icon(Icons.search, color: Colors.pink),
+            label: 'Search',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: Colors.pink),
