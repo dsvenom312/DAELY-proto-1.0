@@ -1,17 +1,18 @@
-import 'package:daely_proto_11/inbox.dart';
-import 'package:daely_proto_11/mainprofile.dart';
 import 'package:daely_proto_11/explore.dart';
-import 'package:daely_proto_11/shop.dart';
+import 'package:daely_proto_11/homescreen.dart';
+import 'package:daely_proto_11/inbox.dart';
 import 'package:daely_proto_11/login.dart';
+import 'package:daely_proto_11/mainmenu.dart';
+import 'package:daely_proto_11/mainprofile.dart';
+import 'package:daely_proto_11/register.dart';
+import 'package:daely_proto_11/shop.dart';
 import 'package:daely_proto_11/swipeabletest.dart';
 import 'package:daely_proto_11/upload.dart';
-import 'package:daely_proto_11/register.dart';
-import 'package:daely_proto_11/mainmenu.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-
 import 'package:flutter/material.dart';
+
+import 'firebase_options.dart';
 // ignore: depend_on_referenced_packages
 
 // Future<void> initializeFirebase() async {
@@ -47,7 +48,6 @@ class MyApp extends StatelessWidget {
       routes: {
         '/profile': (context) => const MyProfilePage(),
         '/search': (context) => const ExplorePage(),
-        // '/home': (context) => const MyPage(),
         '/inbox': (context) => const MyInboxPage(),
         '/shop': (context) => const MyShopPage(),
         '/login': (context) => const LoginPage(),
@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
         '/register': (context) => const RegisterPage(),
         '/upload': (context) => const UploadPage(),
         '/menu': (context) => const MainMenu(),
+        '/test': (context) => const ImageListPage(),
       },
     );
   }

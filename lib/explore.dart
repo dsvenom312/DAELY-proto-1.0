@@ -1,123 +1,119 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:daely_proto_11/setting.dart';
-import 'package:daely_proto_11/swipeabletest.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _MyHomePageState createState() => _MyHomePageState();
+  _ExplorePagestate createState() => _ExplorePagestate();
 }
 
-class _MyHomePageState extends State<ExplorePage> {
-  int _selectedIndex = 0;
+class _ExplorePagestate extends State<ExplorePage> {
+  // ignore: deprecated_member_use
+  final databaseReference = FirebaseDatabase.instance.reference();
+  List<String> _imageURLs = [];
+  List<String> _userEmails = [];
 
-  void _onItemTapped(int index) {
-    if (index == 1) {
-      Navigator.pushNamed(context, '/swipe');
-    }
-    if (index == 2) {
-      // Navigate to Profile page on index 2
-      Navigator.pushNamed(context, '/profile');
-    }
-    if (index == 0) {
-      // Navigate to Profile page on index 2
-      Navigator.pushNamed(context, '/inbox');
-    } else {
+  @override
+  void initState() {
+    super.initState();
+    _fetchImageData();
+  }
+
+  Future<void> _fetchImageData() async {
+    final dataSnapshot = await databaseReference.child('users').get();
+    if (dataSnapshot.value != null) {
+      final users = Map<String, dynamic>.from(
+        dataSnapshot.value as Map<dynamic, dynamic>,
+      );
+      final imageUrls = <String>[];
+      final userEmails = <String>[];
+
+      users.forEach((key, value) {
+        final userPhotos = value['photos'] as Map<dynamic, dynamic>?;
+        if (userPhotos != null) {
+          userPhotos.forEach((imageUID, imageData) {
+            final imageUrl = imageData['image_url'] as String?;
+            if (imageUrl != null) {
+              imageUrls.add(imageUrl);
+              userEmails.add(value['email'] as String);
+            }
+          });
+        }
+      });
+
       setState(() {
-        _selectedIndex = index;
+        _imageURLs = imageUrls;
+        _userEmails = userEmails;
       });
     }
   }
 
-  final List<String> imagePaths = [
-    'assets/images/pic1.jpg',
-    'assets/images/pic2.jpg',
-    'assets/images/pic3.jpg',
-    'assets/images/pic4.jpg',
-    'assets/images/pic1.jpg',
-    'assets/images/pic2.jpg',
-    'assets/images/pic3.jpg',
-    'assets/images/pic4.jpg',
-    'assets/images/pic1.jpg',
-    'assets/images/pic2.jpg',
-    'assets/images/pic3.jpg',
-    'assets/images/pic4.jpg',
-    'assets/images/pic1.jpg',
-    'assets/images/pic2.jpg',
-    'assets/images/pic3.jpg',
-    'assets/images/pic4.jpg',
-    'assets/images/pic1.jpg',
-    'assets/images/pic2.jpg',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('EXPLORE'),
-        backgroundColor: Colors.black,
-        // Change the color to blue
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const MySetting()),
-              );
-            },
-          ),
-        ],
+        backgroundColor: Colors
+            .transparent, // set the app bar background color to transparent
+        elevation: 0,
       ),
       body: GridView.builder(
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
-          childAspectRatio: 1,
+          crossAxisSpacing: 1,
+          mainAxisSpacing: 1,
         ),
-        itemCount: imagePaths.length,
+        itemCount: _imageURLs.length,
         itemBuilder: (BuildContext context, int index) {
+          final imageUrl = _imageURLs[index];
+          final userEmail = _userEmails[index];
+
           return GestureDetector(
             onTap: () {
+              // Navigate to a new page
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const SwipeableImagePage()),
+                  builder: (context) => FullScreenImagePage(
+                    imageUrl: imageUrl,
+                    userEmail: userEmail,
+                  ),
+                ),
               );
             },
-            child: Image.asset(
-              imagePaths[index],
+            child: Image.network(
+              imageUrl,
               fit: BoxFit.cover,
             ),
-            // child: Image.asset(
-            //   imagePaths[index],
-            //   fit: BoxFit.cover,
-            // ),
           );
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black, // Change the color to black
-        selectedItemColor: Colors.pink,
-        unselectedItemColor: Colors.white,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inbox, color: Colors.pink),
-            label: 'Inbox',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home, color: Colors.pink),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Colors.pink),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+    );
+  }
+}
+
+class FullScreenImagePage extends StatelessWidget {
+  final String imageUrl;
+  final String userEmail;
+
+  const FullScreenImagePage({
+    super.key,
+    required this.imageUrl,
+    required this.userEmail,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(userEmail),
+      ),
+      body: Center(
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

@@ -1,4 +1,4 @@
-import 'package:daely_proto_11/swipeabletest.dart';
+import 'package:daely_proto_11/login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
@@ -67,7 +67,7 @@ class _RegisterPageState extends State<RegisterPage> {
         // ignore: use_build_context_synchronously
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => const SwipeableImagePage()),
+          MaterialPageRoute(builder: (context) => const LoginPage()),
         );
 
         // Show a success message
