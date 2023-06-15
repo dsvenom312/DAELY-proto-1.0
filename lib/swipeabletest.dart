@@ -316,7 +316,7 @@
 
 import 'dart:async';
 
-import 'package:daely_proto_11/mainprofile.dart';
+// import 'package:daely_proto_11/mainprofile.dart';
 import 'package:daely_proto_11/setting.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
@@ -435,12 +435,12 @@ class _SwipeableImagePageState extends State<SwipeableImagePage> {
                               ),
                             ),
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const MyProfilePage(),
-                                ),
-                              );
+                              // Navigator.push(
+                              //   // context,
+                              //   // MaterialPageRoute(
+                              //   //   builder: (context) => const MyProfilePage(),
+                              //   // ),
+                              // );
                             },
                           ),
                         ),
