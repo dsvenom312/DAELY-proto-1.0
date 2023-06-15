@@ -184,56 +184,6 @@ class _ImageListPageState extends State<ImageListPage> {
     return email.replaceAll('.', '_');
   }
 
-  // void _addToCart(String imageUrl, String description, String email) {
-  //   final uid = _getUidFromEmail(email);
-  //   final cartRef =
-  //       databaseReference.child('users').child(uid).child('cart_box');
-
-  //   cartRef
-  //       .once()
-  //       .then((DataSnapshot snapshot) {
-  //         if (snapshot.value != null) {
-  //           // 'cart_box' exists, add the item to the existing cart
-  //           cartRef.push().set({
-  //             'image_url': imageUrl,
-  //             'descriptions': description,
-  //           }).then((_) {
-  //             // Item added successfully
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(content: Text('Added to cart')),
-  //             );
-  //           }).catchError((error) {
-  //             // Error occurred while adding the item
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(content: Text('Failed to add to cart')),
-  //             );
-  //           });
-  //         } else {
-  //           // 'cart_box' doesn't exist, create the directory and add the item
-  //           cartRef.set({
-  //             'image_url': imageUrl,
-  //             'descriptions': description,
-  //           }).then((_) {
-  //             // Item added successfully
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(content: Text('Added to cart')),
-  //             );
-  //           }).catchError((error) {
-  //             // Error occurred while adding the item
-  //             ScaffoldMessenger.of(context).showSnackBar(
-  //               const SnackBar(content: Text('Failed to add to cart')),
-  //             );
-  //           });
-  //         }
-  //       } as FutureOr Function(DatabaseEvent value))
-  //       .catchError((error) {
-  //     // Error occurred while retrieving 'cart_box' snapshot
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       const SnackBar(content: Text('Failed to add to cart')),
-  //     );
-  //   }, test: (error) => error is Object);
-  // }
-
   void _addToCart(String imageUrl, String description, String email) {
     final uid = _getUidFromEmail(email);
     final cartRef =
